@@ -6,43 +6,43 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:40:01 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/06 15:50:42 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:50:16 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// int	check_map(char **map)
-// {
-// 	int	i;
-// 	int j;
-// 	int len;
+int	check_map(char **map)
+{
+	int	i;
+	int j;
+	int len;
 
-// 	i = 0;
-// 	j = 0;
-// 	while (map[i][j] != '\n' && map[i][j] != 0)
-// 	{
-// 		if (map[i][j++] != '1')
-// 			return (0);
-// 	}
-// 	j--;
-// 	i++;
-// 	while (map[i + 1] != NULL)
-// 	{
-// 		if (map[i][0] != '1' || map[i][j] != '1')
-// 			return(0);
-// 		i++;
-// 	}
-// 	len = j;
-// 	while (j >= 0)
-// 	{
-// 		if (map[i][j--] != '1')
-// 			return (0);
-// 	}
-// 	return (len);
-// }
+	i = 0;
+	j = 0;
+	while (map[i][j] != '\n' && map[i][j] != 0)
+	{
+		if (map[i][j++] != '1')
+			return (0);
+	}
+	j--;
+	i++;
+	while (map[i + 1] != NULL)
+	{
+		if (map[i][0] != '1' || map[i][j] != '1')
+			return(0);
+		i++;
+	}
+	len = j;
+	while (j >= 0)
+	{
+		if (map[i][j--] != '1')
+			return (0);
+	}
+	return (len);
+}
 
-t_map *initialing_map(void)
+t_map	*initialing_map(void)
 {
 	t_map	*map;
 	map = ft_calloc(1, sizeof(t_map));
@@ -142,7 +142,8 @@ int	main(int argc, char **argv)
 		ft_printf("%s\n", game.map->data[i]);
 		i++;
 	}
-	// create_window();
+	check_map(game.map->data);
+	create_window(&game);
 	free (game.map->data);
 	return (0);
 }

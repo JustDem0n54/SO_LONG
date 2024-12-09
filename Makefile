@@ -18,7 +18,7 @@ SRCS = ${FILE}
 OBJS = ${SRCS:.c=.o}
 
 .c.o:
-	@${CC} ${CFLAGS} -I/usr/include -Imlx_linux -O3 -c $< -o ${<:.c=.o}
+	@${CC} ${CFLAGS} -I/usr/include -Imlx_linux -c $< -o ${<:.c=.o}
 
 ${LIBFT}:	
 	@echo "${GREEN}Compilation LIBFT...${RESET}"
