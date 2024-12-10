@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/09 17:52:49 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:59:27 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 typedef struct s_img
 {
+	void	*w_a[6];
 	void	*w_1;
 	void	*w_2;
 	void	*w_3;
@@ -36,7 +37,17 @@ typedef struct s_img
 	void	*f_9;
 	int		width;
 	int		height;
+	int		frame;
+	int		speed;
+	int		count;
 }	t_img;
+
+typedef struct s_play
+{
+	int		play_x;
+	int		play_y;
+	void	*p_img;
+}	t_play;
 
 
 typedef struct s_map
@@ -50,6 +61,7 @@ typedef struct s_game
 {
 	void	*mlx;
 	void	*win;
+	t_play	*play;
 	t_map	*map;
 	t_img	*img;
 }	t_game;
