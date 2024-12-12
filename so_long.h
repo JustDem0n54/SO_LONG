@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/11 18:01:06 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:35:23 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,18 @@
 typedef struct s_img
 {
 	void	*w_a[6];
-	void	*w_1;
-	void	*w_2;
-	void	*w_3;
-	void	*w_4;
-	void	*f_1;
-	void	*f_2;
-	void	*f_3;
-	void	*f_4;
-	void	*f_5;
-	void	*f_6;
-	void	*f_7;
-	void	*f_8;
-	void	*f_9;
+	void	*w[3];
+	void	*f[9];
 	void	*e_1;
 	void	*e_2;
-	void	*c_1;
+	void	*o_1;
+	void	*rp[6];
+	void	*lp[6];
+	void	*ra[6];
+	void	*la[6];
+	void	*da[6];
+	void	*ua[6];
+	void	*c_2;
 	int		width;
 	int		height;
 	int		frame;
@@ -49,12 +45,15 @@ typedef struct s_play
 {
 	int		play_x;
 	int		play_y;
-	void	*p_img;
 	char	*addr;
 	int		bpp;
 	int		line;
 	int		end;
 	int		count;
+	int		dir;
+	int		atk;
+	int		fight;
+	int		time;
 }	t_play;
 
 
@@ -68,10 +67,9 @@ typedef struct s_map
 typedef struct s_game
 {
 	void	*mlx;
-	void	*win;
-	int		coin;
+	void	*win; 
 	int		obj;
-	t_play	*play;
+	t_play	*p;
 	t_map	*map;
 	t_img	*img;
 }	t_game;
