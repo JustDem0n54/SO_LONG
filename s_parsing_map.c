@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:43:33 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/12 11:27:49 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:31:34 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	line_is_correct(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (ft_strchr("10PEC", line[i]))
+		if (ft_strchr("10PECM", line[i]))
 			i++;
 		else	
 			return (1);

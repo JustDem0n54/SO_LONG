@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:40:01 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/12 16:24:08 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:36:32 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int	main(int argc, char **argv)
 	}
 	check_map(g.map->data);
 	create_window(&g);
+	free(g.map->data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/12 17:35:23 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:26:29 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_img
 	void	*la[6];
 	void	*da[6];
 	void	*ua[6];
+	void	*pe[6];
 	void	*c_2;
 	int		width;
 	int		height;
@@ -64,11 +65,20 @@ typedef struct s_map
 	char **data;
 }	t_map;
 
+typedef struct s_enemie
+{
+	int				x;
+	int				y;
+	int				dir;
+}	t_enemie;
+
+
 typedef struct s_game
 {
 	void	*mlx;
 	void	*win; 
 	int		obj;
+	t_list	*e;
 	t_play	*p;
 	t_map	*map;
 	t_img	*img;
@@ -92,5 +102,6 @@ void	load_animation_frame(t_img *img, t_game *game);
 t_img	*init_img(t_game *game);
 int		render_map(t_game *game);
 void	my_put_img(t_game *game, void *img, int x, int y);
+void	render_enemie(t_game *g);
 
 #endif 

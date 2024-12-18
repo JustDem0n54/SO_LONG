@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:34:40 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/12 17:59:09 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:43:03 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_wall(t_game *game, int i, int j, char **map)
 	else if (map[i - 1][j] != '1' && map[i + 1][j] != '1')
 		mlx_put_image_to_window(game->mlx, game->win, game->img->w[2], j * 64, i * 64);
 	else if (map[i + 1][j] == '0' || map[i + 1][j] == 'E' || map[i + 1][j] == 'C' || 
-			(map[i + 1][j] == '2' && i + 1 == game->map->height - 1))
+			map[i + 1][j] == 'M' || (map[i + 1][j] == '2' && i + 1 == game->map->height - 1))
 		mlx_put_image_to_window(game->mlx, game->win, game->img->w[0], j * 64, i * 64);
 	else if (map[i - 1][j] == '1' || map[i + 1][j] == '1')
 		mlx_put_image_to_window(game->mlx, game->win, game->img->w[1], j * 64, i * 64);
@@ -111,6 +111,16 @@ void	load_fight_frame(t_img *img, t_game *game)
 	img->ua[5] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua6.xpm", &(img->width), &(game->img->height));
 }
 
+void	load_enemie_frame(t_img *img, t_game *game)
+{
+	img->pe[0] = mlx_xpm_file_to_image(game->mlx, "design/pe/en1.xpm", &(img->width), &(game->img->height));
+	img->pe[1] = mlx_xpm_file_to_image(game->mlx, "design/pe/en2.xpm", &(img->width), &(game->img->height));
+	img->pe[2] = mlx_xpm_file_to_image(game->mlx, "design/pe/en3.xpm", &(img->width), &(game->img->height));
+	img->pe[3] = mlx_xpm_file_to_image(game->mlx, "design/pe/en4.xpm", &(img->width), &(game->img->height));
+	img->pe[4] = mlx_xpm_file_to_image(game->mlx, "design/pe/en5.xpm", &(img->width), &(game->img->height));
+	img->pe[5] = mlx_xpm_file_to_image(game->mlx, "design/pe/en6.xpm", &(img->width), &(game->img->height));
+}
+
 t_img	*init_img(t_game *game)
 {
 	t_img	*img;
@@ -123,6 +133,7 @@ t_img	*init_img(t_game *game)
 	img->speed = 5000;
 	load_fight_frame(img, game);
 	load_animation_frame(img, game);
+	load_enemie_frame(img, game);
 	img->w[0] = mlx_xpm_file_to_image(game->mlx, "design/Wall2.xpm", &(img->width), &(img->height));
 	img->w[1] = mlx_xpm_file_to_image(game->mlx, "design/Wall3.xpm", &(img->width), &(img->height));
 	img->w[2] = mlx_xpm_file_to_image(game->mlx, "design/Wall4.xpm", &(img->width), &(img->height));
@@ -142,23 +153,23 @@ t_img	*init_img(t_game *game)
 
 int	render_map(t_game *game)
 {
-	char **map;
 	int i;
 	int j;
 	
 	i = 0;
-	map = game->map->data;
 	while (i < game->map->height)
 	{
 		j = 0;
 		while (j < game->map->width)
 		{
-			if (map[i][j] == '1')
-				print_wall(game, i, j, map);
-			if (map[i][j] == '0' || map[i][j] == 'C' || map[i][j] == 'P' || map[i][j] == 'E')
-				print_floor(game, i, j, map);
-			if (map[i][j] == 'C' || map[i][j] == 'E')
-				print_wall(game, i, j, map);
+			if (game->map->data[i][j] == '1')
+				print_wall(game, i, j, game->map->data);
+			if (game->map->data[i][j] == '0' || game->map->data[i][j] == 'C' 
+				|| game->map->data[i][j] == 'P' || game->map->data[i][j] == 'E'
+				|| game->map->data[i][j] == 'M')
+				print_floor(game, i, j, game->map->data);
+			if (game->map->data[i][j] == 'C' || game->map->data[i][j] == 'E')
+				print_wall(game, i, j, game->map->data);
 			j++;
 		}
 		i++;

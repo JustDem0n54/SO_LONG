@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:36:32 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/12 17:59:29 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:08:24 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,27 @@ t_play	*init_play(t_game *game)
 {
 	int			x;
 	int			y;
-	char		**map;
 	t_play	*p;
 	
 	p = ft_calloc(1, sizeof(t_play));
 	y = 0;
-	map = game->map->data;
 	p->dir = 1;
+	p->atk = 1;
 	p->count = 0;
-	while (map[y++])
+	while (game->map->data[y])
 	{
 		x = 0;
-		while (map[y][x++])
+		while (game->map->data[y][x])
 		{
-			if (map[y][x] == 'P')
+			if (game->map->data[y][x] == 'P')
 			{
 				p->play_x = x;
 				p->play_y = y;
 				return (p);
 			}
+			x++;
 		}
+		y++;
 	}
 	return (p);
 }

@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:24:42 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/12 17:28:24 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:43:44 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@ int animate(t_game *game)
 {
 	int i;
 	int j;
-	char **map;
 	
 	i = 0;
-	map = game->map->data;
 	while (i < game->map->height)
 	{
 		j = 0;
 		while (j < game->map->width)
 		{
-			if (map[i][j] == '2')
+			if (game->map->data[i][j] == '2')
 				mlx_put_image_to_window(game->mlx, game->win, game->img->w_a[game->img->frame],j * 64, i * 64);
 			j++;
 		}
@@ -67,6 +65,7 @@ int	movement(int keycode, t_game *game)
 	{
 		move_player(game, -1, 0);
 		game->p->dir = 2;
+		game->p->atk = 2;
 	}
 	else if (keycode == 119)
 		move_player(game, 0, -1);
@@ -74,6 +73,7 @@ int	movement(int keycode, t_game *game)
 	{
 		move_player(game, 1, 0);
 		game->p->dir = 1;
+		game->p->atk = 1;
 	}
 	else if (keycode == 115)
 		move_player(game, 0, 1);
@@ -126,6 +126,7 @@ int	gameplay(t_game *game)
 		animate(game);
 		render_map(game);
 		render_player(game);
+		render_enemie(game);
 		mlx_do_sync(game->mlx);
 	}
 	return(0);
@@ -135,18 +136,16 @@ int	init_obj(t_game *game)
 {
 	int y;
 	int x;
-	char	**map;
 	int		count;
 	
 	y = 0;
-	map = game->map->data;
 	count = 0;
-	while (map[y])
+	while (game->map->data[y])
 	{
 		x = 0;
-		while (map[y][x])
+		while (game->map->data[y][x])
 		{
-			if (map[y][x] == 'C')
+			if (game->map->data[y][x] == 'C')
 			{
 				count++;
 			}
@@ -157,6 +156,52 @@ int	init_obj(t_game *game)
 	return (count);
 }
 
+t_enemie	*new_enemie(int x, int y)
+{
+	t_enemie	*e;
+
+	e = ft_calloc(1, sizeof(t_enemie));
+	e->x = x * 64;
+	e->y = y * 64;
+	e->dir = 1;
+	return(e);
+}
+
+void	init_enemie(t_game *game)
+{
+	int y;
+	int x;
+	t_enemie	*e;
+	
+	game->e = NULL;
+	y = 0;
+	while (game->map->data[y])
+	{
+		x = 0;
+		while (game->map->data[y][x])
+		{
+			if (game->map->data[y][x] == 'M')
+			{
+				e = new_enemie(x, y);
+				ft_lstadd_back(&(game->e), ft_lstnew(e));
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+void	render_enemie(t_game *g)
+{
+	t_enemie	*e;
+	while (g->e)
+	{
+		e = g->e->content;
+		my_put_img(g, g->img->pe[g->img->frame], e->x, e->y);
+		g->e = g->e->next;
+	}
+}
+
 int	create_window(t_game *g)
 {
 	g->mlx = mlx_init();
@@ -164,6 +209,7 @@ int	create_window(t_game *g)
 	g->obj = init_obj(g);
 	g->img = init_img(g);
 	g->p = init_play(g);
+	init_enemie(g);
 	mlx_hook(g->win, 2, 1L<<0, key_hook, g);
 	mlx_loop_hook(g->mlx, gameplay, g);
 	mlx_loop(g->mlx);
