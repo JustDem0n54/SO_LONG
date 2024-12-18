@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:24:42 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/18 16:43:44 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/18 16:55:37 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,12 +194,16 @@ void	init_enemie(t_game *game)
 void	render_enemie(t_game *g)
 {
 	t_enemie	*e;
+	void		*save;
+	
+	save = g->e;
 	while (g->e)
 	{
 		e = g->e->content;
 		my_put_img(g, g->img->pe[g->img->frame], e->x, e->y);
 		g->e = g->e->next;
 	}
+	g->e = save;
 }
 
 int	create_window(t_game *g)
