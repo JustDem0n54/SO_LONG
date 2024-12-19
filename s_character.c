@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:36:32 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/18 16:08:24 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:11:58 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,9 @@ t_play	*init_play(t_game *game)
 	return (p);
 }
 
-void	render_player(t_game *game)
+void	fight_aimation(t_game *game, int x, int y)
 {
-	int x;
-	int y;
-
-	x = (game->p->play_x * 64);
-	y = (game->p->play_y * 64);
-	if (game->p->fight > 0 && game->p->time < 6)
-	{
-		if (game->p->atk == 1)
+	if (game->p->atk == 1)
 			my_put_img(game, game->img->ra[game->p->time], x, y);
 		if (game->p->atk == 2)
 			my_put_img(game, game->img->la[game->p->time], x, y);
@@ -60,7 +53,27 @@ void	render_player(t_game *game)
 			my_put_img(game, game->img->da[game->p->time], x, y);
 		game->p->time++;
 		game->p->fight--;
-	}
+}
+
+void	death_animation(t_game *game, int x, int y)
+{
+	my_put_img(game, game->img->dp[game->p->time], x, y);
+	game->p->time++;
+	if (game->p->time > 5)
+		exit (EXIT_SUCCESS);
+}
+
+void	render_player(t_game *game)
+{
+	int x;
+	int y;
+
+	x = (game->p->play_x * 64);
+	y = (game->p->play_y * 64);
+	if (game->p->fight > 0 && game->p->time < 6)
+		fight_aimation(game, x, y);
+	else if (game->death == 1 && game->p->time < 6)
+		death_animation(game, x, y);
 	else if (game->p->dir == 1)
 		my_put_img(game, game->img->rp[game->img->frame], x, y);
 	else if (game->p->dir == 2)

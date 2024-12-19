@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/18 16:26:29 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:11:27 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_img
 	void	*da[6];
 	void	*ua[6];
 	void	*pe[6];
+	void	*dp[6];
 	void	*c_2;
 	int		width;
 	int		height;
@@ -67,9 +68,11 @@ typedef struct s_map
 
 typedef struct s_enemie
 {
-	int				x;
-	int				y;
-	int				dir;
+	int	x;
+	int	y;
+	int	dead;
+	int	dir;
+	int	t_death;
 }	t_enemie;
 
 
@@ -78,6 +81,7 @@ typedef struct s_game
 	void	*mlx;
 	void	*win; 
 	int		obj;
+	int		death;
 	t_list	*e;
 	t_play	*p;
 	t_map	*map;

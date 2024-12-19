@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:24:42 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/18 16:55:37 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:14:50 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,39 @@ int	movement(int keycode, t_game *game)
 	return (0);
 }
 
+void	kill_enemie(t_game *g, int atk)
+{
+	t_enemie	*e;
+	void		*save;
+	
+	save = g->e;
+	while (g->e)
+	{
+		e = g->e->content;
+		if (atk == 1 && 
+			((g->p->play_x + 1) * 64) == e->x && (g->p->play_y * 64) == e->y)
+			e->dead = 1;
+		if (atk == 2 && 
+			((g->p->play_x - 1) * 64) == e->x && (g->p->play_y * 64) == e->y)
+			e->dead = 1;
+		if (atk == 3 && 
+			(g->p->play_x * 64) == e->x && ((g->p->play_y - 1) * 64) == e->y)
+			e->dead = 1;
+		if (atk == 4 && 
+			(g->p->play_x * 64) == e->x && ((g->p->play_y + 1) * 64) == e->y)
+			e->dead = 1;
+		g->e = g->e->next;
+	}
+	g->e = save;
+}
+
 int fight(int keycode, t_game *game)
 {
 	if (keycode == 32)
 	{
 		game->p->fight = 6;
 		game->p->time = 0;
+		kill_enemie(game, game->p->atk);
 	}
 	else if (keycode == 65361)
 	{
@@ -111,8 +138,32 @@ int	key_hook(int keycode, t_game *game)
 		mlx_clear_window(game->mlx, game->win);
 		exit (EXIT_SUCCESS);
 	}
-	movement(keycode, game);
-	fight(keycode, game);
+	if (game->death != 1)
+	{
+		movement(keycode, game);
+		fight(keycode, game);
+	}
+	return (0);
+}
+
+int	check_death(t_game *game)
+{
+	void	*save;
+	t_enemie	*e;
+
+	save = game->e;
+	while(game->e)
+	{
+		e = game->e->content;
+		if ((game->p->play_x * 64) == e->x && (game->p->play_y * 64) == e->y
+			&& e->dead == 0)
+		{	
+			game->death = 1;
+			game->p->time = 0;
+		}
+		game->e = game->e->next;
+	}
+	game->e = save;
 	return (0);
 }
 
@@ -123,6 +174,8 @@ int	gameplay(t_game *game)
 	{
 		game->img->frame = (game->img->frame + 1) % 6;
 		game->img->count = 0;
+		if (game->death != 1)
+			check_death(game);
 		animate(game);
 		render_map(game);
 		render_player(game);
@@ -164,6 +217,8 @@ t_enemie	*new_enemie(int x, int y)
 	e->x = x * 64;
 	e->y = y * 64;
 	e->dir = 1;
+	e->dead = 0;
+	e->t_death = 0;
 	return(e);
 }
 
@@ -174,6 +229,8 @@ void	init_enemie(t_game *game)
 	t_enemie	*e;
 	
 	game->e = NULL;
+	game->death = 0;
+	game->p->time = 6;
 	y = 0;
 	while (game->map->data[y])
 	{
@@ -200,7 +257,14 @@ void	render_enemie(t_game *g)
 	while (g->e)
 	{
 		e = g->e->content;
-		my_put_img(g, g->img->pe[g->img->frame], e->x, e->y);
+		if (e->dead == 0)
+			my_put_img(g, g->img->pe[g->img->frame], e->x, e->y);
+		if (e->dead == 1)
+		{
+			my_put_img(g, g->img->dp[e->t_death], e->x, e->y);
+			if (e->t_death < 5)
+				e->t_death++;
+		}
 		g->e = g->e->next;
 	}
 	g->e = save;

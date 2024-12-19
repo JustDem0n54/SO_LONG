@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:34:40 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/18 16:43:03 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:48:27 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	load_fight_frame(t_img *img, t_game *game)
 	img->ua[5] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua6.xpm", &(img->width), &(game->img->height));
 }
 
-void	load_enemie_frame(t_img *img, t_game *game)
+void	load_extra_frame(t_img *img, t_game *game)
 {
 	img->pe[0] = mlx_xpm_file_to_image(game->mlx, "design/pe/en1.xpm", &(img->width), &(game->img->height));
 	img->pe[1] = mlx_xpm_file_to_image(game->mlx, "design/pe/en2.xpm", &(img->width), &(game->img->height));
@@ -119,6 +119,12 @@ void	load_enemie_frame(t_img *img, t_game *game)
 	img->pe[3] = mlx_xpm_file_to_image(game->mlx, "design/pe/en4.xpm", &(img->width), &(game->img->height));
 	img->pe[4] = mlx_xpm_file_to_image(game->mlx, "design/pe/en5.xpm", &(img->width), &(game->img->height));
 	img->pe[5] = mlx_xpm_file_to_image(game->mlx, "design/pe/en6.xpm", &(img->width), &(game->img->height));
+	img->dp[0] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp1.xpm", &(img->width), &(game->img->height));
+	img->dp[1] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp2.xpm", &(img->width), &(game->img->height));
+	img->dp[2] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp3.xpm", &(img->width), &(game->img->height));
+	img->dp[3] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp4.xpm", &(img->width), &(game->img->height));
+	img->dp[4] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp5.xpm", &(img->width), &(game->img->height));
+	img->dp[5] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp6.xpm", &(img->width), &(game->img->height));
 }
 
 t_img	*init_img(t_game *game)
@@ -133,7 +139,7 @@ t_img	*init_img(t_game *game)
 	img->speed = 5000;
 	load_fight_frame(img, game);
 	load_animation_frame(img, game);
-	load_enemie_frame(img, game);
+	load_extra_frame(img, game);
 	img->w[0] = mlx_xpm_file_to_image(game->mlx, "design/Wall2.xpm", &(img->width), &(img->height));
 	img->w[1] = mlx_xpm_file_to_image(game->mlx, "design/Wall3.xpm", &(img->width), &(img->height));
 	img->w[2] = mlx_xpm_file_to_image(game->mlx, "design/Wall4.xpm", &(img->width), &(img->height));
