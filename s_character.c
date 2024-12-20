@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:36:32 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/19 15:11:58 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 14:53:24 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ t_play	*init_play(t_game *game)
 		{
 			if (game->map->data[y][x] == 'P')
 			{
-				p->play_x = x;
-				p->play_y = y;
+				p->x = x;
+				p->y = y;
 				return (p);
 			}
 			x++;
@@ -68,8 +68,8 @@ void	render_player(t_game *game)
 	int x;
 	int y;
 
-	x = (game->p->play_x * 64);
-	y = (game->p->play_y * 64);
+	x = (game->p->x * 64);
+	y = (game->p->y * 64);
 	if (game->p->fight > 0 && game->p->time < 6)
 		fight_aimation(game, x, y);
 	else if (game->death == 1 && game->p->time < 6)
@@ -85,14 +85,15 @@ int	move_player(t_game *game, int dx, int dy)
 	int new_x;
 	int new_y;
 	
-	new_x = game->p->play_x + dx;
-	new_y = game->p->play_y + dy;
+	new_x = game->p->x + dx;
+	new_y = game->p->y + dy;
 	if (game->map->data[new_y][new_x] != '1' && game->map->data[new_y][new_x] != '2')
 	{
-		game->p->play_x = new_x;
-		game->p->play_y = new_y;
+		game->p->x = new_x;
+		game->p->y = new_y;
 		game->p->count = game->p->count + 1;
 		ft_printf("Nombre de deplacement : %d\n", game->p->count);
+		game->str = ft_itoa(game->p->count);
 		if (game->map->data[new_y][new_x] == 'C')
 		{
 			game->obj--;

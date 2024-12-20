@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:24:42 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/19 15:14:50 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:45:06 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,16 @@ void	kill_enemie(t_game *g, int atk)
 	{
 		e = g->e->content;
 		if (atk == 1 && 
-			((g->p->play_x + 1) * 64) == e->x && (g->p->play_y * 64) == e->y)
+			((g->p->x + 1) * 64) == e->x * 64 && (g->p->y * 64) == e->y * 64)
 			e->dead = 1;
 		if (atk == 2 && 
-			((g->p->play_x - 1) * 64) == e->x && (g->p->play_y * 64) == e->y)
+			((g->p->x - 1) * 64) == e->x * 64 && (g->p->y * 64) == e->y * 64)
 			e->dead = 1;
 		if (atk == 3 && 
-			(g->p->play_x * 64) == e->x && ((g->p->play_y - 1) * 64) == e->y)
+			(g->p->x * 64) == e->x * 64 && ((g->p->y - 1) * 64) == e->y * 64)
 			e->dead = 1;
 		if (atk == 4 && 
-			(g->p->play_x * 64) == e->x && ((g->p->play_y + 1) * 64) == e->y)
+			(g->p->x * 64) == e->x * 64 && ((g->p->y + 1) * 64) == e->y * 64)
 			e->dead = 1;
 		g->e = g->e->next;
 	}
@@ -155,8 +155,8 @@ int	check_death(t_game *game)
 	while(game->e)
 	{
 		e = game->e->content;
-		if ((game->p->play_x * 64) == e->x && (game->p->play_y * 64) == e->y
-			&& e->dead == 0)
+		if ((game->p->x * 64) == e->x * 64 
+		&& (game->p->y * 64) == e->y * 64 && e->dead == 0)
 		{	
 			game->death = 1;
 			game->p->time = 0;
@@ -180,6 +180,7 @@ int	gameplay(t_game *game)
 		render_map(game);
 		render_player(game);
 		render_enemie(game);
+		mlx_string_put(game->mlx, game->win, 64, 64, 0x000000, game->str);
 		mlx_do_sync(game->mlx);
 	}
 	return(0);
@@ -193,6 +194,7 @@ int	init_obj(t_game *game)
 	
 	y = 0;
 	count = 0;
+	game->str = "0000";
 	while (game->map->data[y])
 	{
 		x = 0;
@@ -214,11 +216,12 @@ t_enemie	*new_enemie(int x, int y)
 	t_enemie	*e;
 
 	e = ft_calloc(1, sizeof(t_enemie));
-	e->x = x * 64;
-	e->y = y * 64;
+	e->x = x;
+	e->y = y;
 	e->dir = 1;
 	e->dead = 0;
 	e->t_death = 0;
+	e->count = 0;
 	return(e);
 }
 
@@ -248,6 +251,23 @@ void	init_enemie(t_game *game)
 	}
 }
 
+void	move_enemie(t_game *g, t_enemie *e)
+{
+	e->count++;
+	if (e->count == 10)
+	{
+		e->count = 0;
+		if (e->dir > 0 && (g->map->data[e->y][e->x + 1] != '1' 
+			&& g->map->data[e->y][e->x + 1] != '2'))
+			e->x = e->x + 1;
+		else if (e->dir < 0 && (g->map->data[e->y][e->x - 1] != '1' 
+			&& g->map->data[e->y][e->x - 1] != '2'))
+			e->x = e->x - 1;
+		else 
+			e->dir = e->dir * -1;
+	}
+}
+
 void	render_enemie(t_game *g)
 {
 	t_enemie	*e;
@@ -258,10 +278,14 @@ void	render_enemie(t_game *g)
 	{
 		e = g->e->content;
 		if (e->dead == 0)
-			my_put_img(g, g->img->pe[g->img->frame], e->x, e->y);
+			move_enemie(g, e);
+		if (e->dead == 0 && e->dir > 0)
+			my_put_img(g, g->img->pe[g->img->frame], e->x * 64, e->y * 64);
+		if (e->dead == 0 && e->dir < 0)
+			my_put_img(g, g->img->pe2[g->img->frame], e->x * 64, e->y * 64);
 		if (e->dead == 1)
 		{
-			my_put_img(g, g->img->dp[e->t_death], e->x, e->y);
+			my_put_img(g, g->img->dp[e->t_death], e->x * 64, e->y * 64);
 			if (e->t_death < 5)
 				e->t_death++;
 		}

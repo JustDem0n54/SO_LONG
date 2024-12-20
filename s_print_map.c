@@ -6,154 +6,165 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:34:40 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/19 13:48:27 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:45:49 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	print_wall(t_game *game, int i, int j, char **map)
+void	print_wall(t_game *g, int i, int j, char **map)
 {
-	if (i == (game->map->height - 1) || i == 0 || j == 0 || j == (game->map->width - 1))
+	if (i == (g->map->height - 1) || i == 0 || j == 0 
+		|| j == (g->map->width - 1))
 		map[i][j] = '2';
 	else if (map[i][j] == 'E')
 	{
-		if (game->obj == 0)
-			my_put_img(game, game->img->e_2, j * 64, i * 64);
+		if (g->obj == 0)
+			my_put_img(g, g->img->e_2, j * 64, i * 64);
 		else
-			my_put_img(game, game->img->e_1, j * 64, i * 64);
+			my_put_img(g, g->img->e_1, j * 64, i * 64);
 	}
 	else if (map[i][j] == 'C')
-		my_put_img(game, game->img->o_1, j * 64, i * 64);
+		my_put_img(g, g->img->o_1, j * 64, i * 64);
 	else if (map[i - 1][j] != '1' && map[i + 1][j] != '1')
-		mlx_put_image_to_window(game->mlx, game->win, game->img->w[2], j * 64, i * 64);
-	else if (map[i + 1][j] == '0' || map[i + 1][j] == 'E' || map[i + 1][j] == 'C' || 
-			map[i + 1][j] == 'M' || (map[i + 1][j] == '2' && i + 1 == game->map->height - 1))
-		mlx_put_image_to_window(game->mlx, game->win, game->img->w[0], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->w[2], j * 64, i * 64);
+	else if (map[i + 1][j] == '0' || map[i + 1][j] == 'E' 
+		|| map[i + 1][j] == 'C' || map[i + 1][j] == 'M' ||
+		(map[i + 1][j] == '2' && i + 1 == g->map->height - 1))
+		mlx_put_image_to_window(g->mlx, g->win, g->img->w[0], j * 64, i * 64);
 	else if (map[i - 1][j] == '1' || map[i + 1][j] == '1')
-		mlx_put_image_to_window(game->mlx, game->win, game->img->w[1], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->w[1], j * 64, i * 64);
 	
 }
 
-void	print_floor(t_game *game, int i, int j, char **map)
+void	print_floor(t_game *g, int i, int j, char **map)
 {
 	if (map[i + 1][j] == '2' && (map[i][j- 1] == '2' || map[i][j- 1] == '1'))
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[2], j * 64, i * 64);
-	else if (map[i - 1][j] == '2' && (map[i][j - 1] == '2' || map[i][j- 1] == '1'))
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[1], j * 64, i * 64);
-	else if ((map[i][j + 1] == '2' || map[i][j + 1] == '1') && map[i - 1][j] == '2')
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[5], j * 64, i * 64);
-	else if ((map[i][j + 1] == '2' || map[i][j + 1] == '1') && map[i + 1][j] == '2')
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[6], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[2], j * 64, i * 64);
+	else if (map[i - 1][j] == '2' && 
+		(map[i][j - 1] == '2' || map[i][j- 1] == '1'))
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[1], j * 64, i * 64);
+	else if ((map[i][j + 1] == '2' || map[i][j + 1] == '1') 
+		&& map[i - 1][j] == '2')
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[5], j * 64, i * 64);
+	else if ((map[i][j + 1] == '2' || map[i][j + 1] == '1')
+		&& map[i + 1][j] == '2')
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[6], j * 64, i * 64);
 	else if ((map[i][j - 1] == '2' || map[i][j - 1] == '1') && j <= 2)
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[3], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[3], j * 64, i * 64);
 	else if ((map[i - 1][j] == '2' || map[i - 1][j] == '1') && i <= 1)
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[4], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[4], j * 64, i * 64);
 	else if (map[i + 1][j] == '2')
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[8], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[8], j * 64, i * 64);
 	else if (map[i][j + 1] == '2')
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[7], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[7], j * 64, i * 64);
 	else
-		mlx_put_image_to_window(game->mlx, game->win, game->img->f[0], j * 64, i * 64);
+		mlx_put_image_to_window(g->mlx, g->win, g->img->f[0], j * 64, i * 64);
 }
 
-void	load_animation_frame(t_img *img, t_game *game)
+void	load_animation_frame(t_img *img, t_game *g)
 {
 	img->count = 0;
 	img->frame = 0;
-	img->rp[0] = mlx_xpm_file_to_image(game->mlx, "design/rp/rp1.xpm", &(img->width), &(game->img->height));
-	img->rp[1] = mlx_xpm_file_to_image(game->mlx, "design/rp/rp2.xpm", &(img->width), &(game->img->height));
-	img->rp[2] = mlx_xpm_file_to_image(game->mlx, "design/rp/rp3.xpm", &(img->width), &(game->img->height));
-	img->rp[3] = mlx_xpm_file_to_image(game->mlx, "design/rp/rp4.xpm", &(img->width), &(game->img->height));
-	img->rp[4] = mlx_xpm_file_to_image(game->mlx, "design/rp/rp5.xpm", &(img->width), &(game->img->height));
-	img->rp[5] = mlx_xpm_file_to_image(game->mlx, "design/rp/rp6.xpm", &(img->width), &(game->img->height));
-	img->lp[0] = mlx_xpm_file_to_image(game->mlx, "design/lp/lp1.xpm", &(img->width), &(game->img->height));
-	img->lp[1] = mlx_xpm_file_to_image(game->mlx, "design/lp/lp2.xpm", &(img->width), &(game->img->height));
-	img->lp[2] = mlx_xpm_file_to_image(game->mlx, "design/lp/lp3.xpm", &(img->width), &(game->img->height));
-	img->lp[3] = mlx_xpm_file_to_image(game->mlx, "design/lp/lp4.xpm", &(img->width), &(game->img->height));
-	img->lp[4] = mlx_xpm_file_to_image(game->mlx, "design/lp/lp5.xpm", &(img->width), &(game->img->height));
-	img->lp[5] = mlx_xpm_file_to_image(game->mlx, "design/lp/lp6.xpm", &(img->width), &(game->img->height));
-	img->w_a[0] = mlx_xpm_file_to_image(game->mlx, "design/aw_1/W1.xpm", &(img->width), &(img->height));
-	img->w_a[1] = mlx_xpm_file_to_image(game->mlx, "design/aw_1/W2.xpm", &(img->width), &(img->height));
-	img->w_a[2] = mlx_xpm_file_to_image(game->mlx, "design/aw_1/W3.xpm", &(img->width), &(img->height));
-	img->w_a[3] = mlx_xpm_file_to_image(game->mlx, "design/aw_1/W4.xpm", &(img->width), &(img->height));
-	img->w_a[4] = mlx_xpm_file_to_image(game->mlx, "design/aw_1/W5.xpm", &(img->width), &(img->height));
-	img->w_a[5] = mlx_xpm_file_to_image(game->mlx, "design/aw_1/W6.xpm", &(img->width), &(img->height));
-	img->o_1 = mlx_xpm_file_to_image(game->mlx, "design/Obj1.xpm", &(img->width), &(img->height));
-	img->c_2 = mlx_xpm_file_to_image(game->mlx, "design/Player2.xpm", &(img->width), &(game->img->height));
+	img->rp[0] = mlx_xpm_file_to_image(g->mlx, "d/rp/rp1.xpm", &(img->wi), &(img->he));
+	img->rp[1] = mlx_xpm_file_to_image(g->mlx, "d/rp/rp2.xpm", &(img->wi), &(img->he));
+	img->rp[2] = mlx_xpm_file_to_image(g->mlx, "d/rp/rp3.xpm", &(img->wi), &(img->he));
+	img->rp[3] = mlx_xpm_file_to_image(g->mlx, "d/rp/rp4.xpm", &(img->wi), &(img->he));
+	img->rp[4] = mlx_xpm_file_to_image(g->mlx, "d/rp/rp5.xpm", &(img->wi), &(img->he));
+	img->rp[5] = mlx_xpm_file_to_image(g->mlx, "d/rp/rp6.xpm", &(img->wi), &(img->he));
+	img->lp[0] = mlx_xpm_file_to_image(g->mlx, "d/lp/lp1.xpm", &(img->wi), &(img->he));
+	img->lp[1] = mlx_xpm_file_to_image(g->mlx, "d/lp/lp2.xpm", &(img->wi), &(img->he));
+	img->lp[2] = mlx_xpm_file_to_image(g->mlx, "d/lp/lp3.xpm", &(img->wi), &(img->he));
+	img->lp[3] = mlx_xpm_file_to_image(g->mlx, "d/lp/lp4.xpm", &(img->wi), &(img->he));
+	img->lp[4] = mlx_xpm_file_to_image(g->mlx, "d/lp/lp5.xpm", &(img->wi), &(img->he));
+	img->lp[5] = mlx_xpm_file_to_image(g->mlx, "d/lp/lp6.xpm", &(img->wi), &(img->he));
+	img->w_a[0] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W1.xpm", &(img->wi), &(img->he));
+	img->w_a[1] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W2.xpm", &(img->wi), &(img->he));
+	img->w_a[2] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W3.xpm", &(img->wi), &(img->he));
+	img->w_a[3] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W4.xpm", &(img->wi), &(img->he));
+	img->w_a[4] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W5.xpm", &(img->wi), &(img->he));
+	img->w_a[5] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W6.xpm", &(img->wi), &(img->he));
+	img->o_1 = mlx_xpm_file_to_image(g->mlx, "d/Obj1.xpm", &(img->wi), &(img->he));
+	img->c_2 = mlx_xpm_file_to_image(g->mlx, "d/Player2.xpm", &(img->wi), &(img->he));
 }
 
-void	load_fight_frame(t_img *img, t_game *game)
+void	load_fight_frame(t_img *img, t_game *g)
 {
-	img->ra[0] = mlx_xpm_file_to_image(game->mlx, "design/pa/ra1.xpm", &(img->width), &(game->img->height));
-	img->ra[1] = mlx_xpm_file_to_image(game->mlx, "design/pa/ra2.xpm", &(img->width), &(game->img->height));
-	img->ra[2] = mlx_xpm_file_to_image(game->mlx, "design/pa/ra3.xpm", &(img->width), &(game->img->height));
-	img->ra[3] = mlx_xpm_file_to_image(game->mlx, "design/pa/ra4.xpm", &(img->width), &(game->img->height));
-	img->ra[4] = mlx_xpm_file_to_image(game->mlx, "design/pa/ra5.xpm", &(img->width), &(game->img->height));
-	img->ra[5] = mlx_xpm_file_to_image(game->mlx, "design/pa/ra6.xpm", &(img->width), &(game->img->height));
-	img->la[0] = mlx_xpm_file_to_image(game->mlx, "design/pa/la1.xpm", &(img->width), &(game->img->height));
-	img->la[1] = mlx_xpm_file_to_image(game->mlx, "design/pa/la2.xpm", &(img->width), &(game->img->height));
-	img->la[2] = mlx_xpm_file_to_image(game->mlx, "design/pa/la3.xpm", &(img->width), &(game->img->height));
-	img->la[3] = mlx_xpm_file_to_image(game->mlx, "design/pa/la4.xpm", &(img->width), &(game->img->height));
-	img->la[4] = mlx_xpm_file_to_image(game->mlx, "design/pa/la5.xpm", &(img->width), &(game->img->height));
-	img->la[5] = mlx_xpm_file_to_image(game->mlx, "design/pa/la6.xpm", &(img->width), &(game->img->height));
-	img->da[0] = mlx_xpm_file_to_image(game->mlx, "design/pa/da1.xpm", &(img->width), &(game->img->height));
-	img->da[1] = mlx_xpm_file_to_image(game->mlx, "design/pa/da2.xpm", &(img->width), &(game->img->height));
-	img->da[2] = mlx_xpm_file_to_image(game->mlx, "design/pa/da3.xpm", &(img->width), &(game->img->height));
-	img->da[3] = mlx_xpm_file_to_image(game->mlx, "design/pa/da4.xpm", &(img->width), &(game->img->height));
-	img->da[4] = mlx_xpm_file_to_image(game->mlx, "design/pa/da5.xpm", &(img->width), &(game->img->height));
-	img->da[5] = mlx_xpm_file_to_image(game->mlx, "design/pa/da6.xpm", &(img->width), &(game->img->height));
-	img->ua[0] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua1.xpm", &(img->width), &(game->img->height));
-	img->ua[1] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua2.xpm", &(img->width), &(game->img->height));
-	img->ua[2] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua3.xpm", &(img->width), &(game->img->height));
-	img->ua[3] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua4.xpm", &(img->width), &(game->img->height));
-	img->ua[4] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua5.xpm", &(img->width), &(game->img->height));
-	img->ua[5] = mlx_xpm_file_to_image(game->mlx, "design/pa/ua6.xpm", &(img->width), &(game->img->height));
+	img->ra[0] = mlx_xpm_file_to_image(g->mlx, "d/pa/ra1.xpm", &(img->wi), &(img->he));
+	img->ra[1] = mlx_xpm_file_to_image(g->mlx, "d/pa/ra2.xpm", &(img->wi), &(img->he));
+	img->ra[2] = mlx_xpm_file_to_image(g->mlx, "d/pa/ra3.xpm", &(img->wi), &(img->he));
+	img->ra[3] = mlx_xpm_file_to_image(g->mlx, "d/pa/ra4.xpm", &(img->wi), &(img->he));
+	img->ra[4] = mlx_xpm_file_to_image(g->mlx, "d/pa/ra5.xpm", &(img->wi), &(img->he));
+	img->ra[5] = mlx_xpm_file_to_image(g->mlx, "d/pa/ra6.xpm", &(img->wi), &(img->he));
+	img->la[0] = mlx_xpm_file_to_image(g->mlx, "d/pa/la1.xpm", &(img->wi), &(img->he));
+	img->la[1] = mlx_xpm_file_to_image(g->mlx, "d/pa/la2.xpm", &(img->wi), &(img->he));
+	img->la[2] = mlx_xpm_file_to_image(g->mlx, "d/pa/la3.xpm", &(img->wi), &(img->he));
+	img->la[3] = mlx_xpm_file_to_image(g->mlx, "d/pa/la4.xpm", &(img->wi), &(img->he));
+	img->la[4] = mlx_xpm_file_to_image(g->mlx, "d/pa/la5.xpm", &(img->wi), &(img->he));
+	img->la[5] = mlx_xpm_file_to_image(g->mlx, "d/pa/la6.xpm", &(img->wi), &(img->he));
+	img->da[0] = mlx_xpm_file_to_image(g->mlx, "d/pa/da1.xpm", &(img->wi), &(img->he));
+	img->da[1] = mlx_xpm_file_to_image(g->mlx, "d/pa/da2.xpm", &(img->wi), &(img->he));
+	img->da[2] = mlx_xpm_file_to_image(g->mlx, "d/pa/da3.xpm", &(img->wi), &(img->he));
+	img->da[3] = mlx_xpm_file_to_image(g->mlx, "d/pa/da4.xpm", &(img->wi), &(img->he));
+	img->da[4] = mlx_xpm_file_to_image(g->mlx, "d/pa/da5.xpm", &(img->wi), &(img->he));
+	img->da[5] = mlx_xpm_file_to_image(g->mlx, "d/pa/da6.xpm", &(img->wi), &(img->he));
+	img->ua[0] = mlx_xpm_file_to_image(g->mlx, "d/pa/ua1.xpm", &(img->wi), &(img->he));
+	img->ua[1] = mlx_xpm_file_to_image(g->mlx, "d/pa/ua2.xpm", &(img->wi), &(img->he));
+	img->ua[2] = mlx_xpm_file_to_image(g->mlx, "d/pa/ua3.xpm", &(img->wi), &(img->he));
+	img->ua[3] = mlx_xpm_file_to_image(g->mlx, "d/pa/ua4.xpm", &(img->wi), &(img->he));
+	img->ua[4] = mlx_xpm_file_to_image(g->mlx, "d/pa/ua5.xpm", &(img->wi), &(img->he));
+	img->ua[5] = mlx_xpm_file_to_image(g->mlx, "d/pa/ua6.xpm", &(img->wi), &(img->he));
+	load_extra_frame(img, g);
 }
 
-void	load_extra_frame(t_img *img, t_game *game)
+void	load_extra_frame(t_img *img, t_game *g)
 {
-	img->pe[0] = mlx_xpm_file_to_image(game->mlx, "design/pe/en1.xpm", &(img->width), &(game->img->height));
-	img->pe[1] = mlx_xpm_file_to_image(game->mlx, "design/pe/en2.xpm", &(img->width), &(game->img->height));
-	img->pe[2] = mlx_xpm_file_to_image(game->mlx, "design/pe/en3.xpm", &(img->width), &(game->img->height));
-	img->pe[3] = mlx_xpm_file_to_image(game->mlx, "design/pe/en4.xpm", &(img->width), &(game->img->height));
-	img->pe[4] = mlx_xpm_file_to_image(game->mlx, "design/pe/en5.xpm", &(img->width), &(game->img->height));
-	img->pe[5] = mlx_xpm_file_to_image(game->mlx, "design/pe/en6.xpm", &(img->width), &(game->img->height));
-	img->dp[0] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp1.xpm", &(img->width), &(game->img->height));
-	img->dp[1] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp2.xpm", &(img->width), &(game->img->height));
-	img->dp[2] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp3.xpm", &(img->width), &(game->img->height));
-	img->dp[3] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp4.xpm", &(img->width), &(game->img->height));
-	img->dp[4] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp5.xpm", &(img->width), &(game->img->height));
-	img->dp[5] = mlx_xpm_file_to_image(game->mlx, "design/dp/dp6.xpm", &(img->width), &(game->img->height));
+	img->pe[0] = mlx_xpm_file_to_image(g->mlx, "d/pe/en1.xpm", &(img->wi), &(img->he));
+	img->pe[1] = mlx_xpm_file_to_image(g->mlx, "d/pe/en2.xpm", &(img->wi), &(img->he));
+	img->pe[2] = mlx_xpm_file_to_image(g->mlx, "d/pe/en3.xpm", &(img->wi), &(img->he));
+	img->pe[3] = mlx_xpm_file_to_image(g->mlx, "d/pe/en4.xpm", &(img->wi), &(img->he));
+	img->pe[4] = mlx_xpm_file_to_image(g->mlx, "d/pe/en5.xpm", &(img->wi), &(img->he));
+	img->pe[5] = mlx_xpm_file_to_image(g->mlx, "d/pe/en6.xpm", &(img->wi), &(img->he));
+	img->dp[0] = mlx_xpm_file_to_image(g->mlx, "d/dp/dp1.xpm", &(img->wi), &(img->he));
+	img->dp[1] = mlx_xpm_file_to_image(g->mlx, "d/dp/dp2.xpm", &(img->wi), &(img->he));
+	img->dp[2] = mlx_xpm_file_to_image(g->mlx, "d/dp/dp3.xpm", &(img->wi), &(img->he));
+	img->dp[3] = mlx_xpm_file_to_image(g->mlx, "d/dp/dp4.xpm", &(img->wi), &(img->he));
+	img->dp[4] = mlx_xpm_file_to_image(g->mlx, "d/dp/dp5.xpm", &(img->wi), &(img->he));
+	img->dp[5] = mlx_xpm_file_to_image(g->mlx, "d/dp/dp6.xpm", &(img->wi), &(img->he));
+	img->pe2[0] = mlx_xpm_file_to_image(g->mlx, "d/pe/len1.xpm", &(img->wi), &(img->he));
+	img->pe2[1] = mlx_xpm_file_to_image(g->mlx, "d/pe/len2.xpm", &(img->wi), &(img->he));
+	img->pe2[2] = mlx_xpm_file_to_image(g->mlx, "d/pe/len3.xpm", &(img->wi), &(img->he));
+	img->pe2[3] = mlx_xpm_file_to_image(g->mlx, "d/pe/len4.xpm", &(img->wi), &(img->he));
+	img->pe2[4] = mlx_xpm_file_to_image(g->mlx, "d/pe/len5.xpm", &(img->wi), &(img->he));
+	img->pe2[5] = mlx_xpm_file_to_image(g->mlx, "d/pe/len6.xpm", &(img->wi), &(img->he));
 }
 
-t_img	*init_img(t_game *game)
+t_img	*init_img(t_game *g)
 {
 	t_img	*img;
 
 	img = ft_calloc(1, sizeof(t_img));
 	if (img == NULL)
 		return (NULL);
-	img->height = 0;
-	img->width = 0;
+	img->he = 0;
+	img->wi = 0;
 	img->speed = 5000;
-	load_fight_frame(img, game);
-	load_animation_frame(img, game);
-	load_extra_frame(img, game);
-	img->w[0] = mlx_xpm_file_to_image(game->mlx, "design/Wall2.xpm", &(img->width), &(img->height));
-	img->w[1] = mlx_xpm_file_to_image(game->mlx, "design/Wall3.xpm", &(img->width), &(img->height));
-	img->w[2] = mlx_xpm_file_to_image(game->mlx, "design/Wall4.xpm", &(img->width), &(img->height));
-	img->f[0] = mlx_xpm_file_to_image(game->mlx, "design/Floor1.xpm", &(img->width), &(img->height));
-	img->f[1] = mlx_xpm_file_to_image(game->mlx, "design/Floor2.xpm", &(img->width), &(img->height));
-	img->f[2] = mlx_xpm_file_to_image(game->mlx, "design/Floor3.xpm", &(img->width), &(img->height));
-	img->f[3] = mlx_xpm_file_to_image(game->mlx, "design/Floor4.xpm", &(img->width), &(img->height));
-	img->f[4] = mlx_xpm_file_to_image(game->mlx, "design/Floor5.xpm", &(img->width), &(img->height));
-	img->f[5] = mlx_xpm_file_to_image(game->mlx, "design/Floor6.xpm", &(img->width), &(img->height));
-	img->f[6] = mlx_xpm_file_to_image(game->mlx, "design/Floor7.xpm", &(img->width), &(img->height));
-	img->f[7] = mlx_xpm_file_to_image(game->mlx, "design/Floor8.xpm", &(img->width), &(img->height));
-	img->f[8] = mlx_xpm_file_to_image(game->mlx, "design/Floor9.xpm", &(img->width), &(img->height));
-	img->e_1 = mlx_xpm_file_to_image(game->mlx, "design/Exit1.xpm", &(img->width), &(img->height));
-	img->e_2 = mlx_xpm_file_to_image(game->mlx, "design/Exit2.xpm", &(img->width), &(img->height));
+	load_fight_frame(img, g);
+	load_animation_frame(img, g);
+	img->w[0] = mlx_xpm_file_to_image(g->mlx, "d/Wall2.xpm", &(img->wi), &(img->he));
+	img->w[1] = mlx_xpm_file_to_image(g->mlx, "d/Wall3.xpm", &(img->wi), &(img->he));
+	img->w[2] = mlx_xpm_file_to_image(g->mlx, "d/Wall4.xpm", &(img->wi), &(img->he));
+	img->f[0] = mlx_xpm_file_to_image(g->mlx, "d/Floor1.xpm", &(img->wi), &(img->he));
+	img->f[1] = mlx_xpm_file_to_image(g->mlx, "d/Floor2.xpm", &(img->wi), &(img->he));
+	img->f[2] = mlx_xpm_file_to_image(g->mlx, "d/Floor3.xpm", &(img->wi), &(img->he));
+	img->f[3] = mlx_xpm_file_to_image(g->mlx, "d/Floor4.xpm", &(img->wi), &(img->he));
+	img->f[4] = mlx_xpm_file_to_image(g->mlx, "d/Floor5.xpm", &(img->wi), &(img->he));
+	img->f[5] = mlx_xpm_file_to_image(g->mlx, "d/Floor6.xpm", &(img->wi), &(img->he));
+	img->f[6] = mlx_xpm_file_to_image(g->mlx, "d/Floor7.xpm", &(img->wi), &(img->he));
+	img->f[7] = mlx_xpm_file_to_image(g->mlx, "d/Floor8.xpm", &(img->wi), &(img->he));
+	img->f[8] = mlx_xpm_file_to_image(g->mlx, "d/Floor9.xpm", &(img->wi), &(img->he));
+	img->e_1 = mlx_xpm_file_to_image(g->mlx, "d/Exit1.xpm", &(img->wi), &(img->he));
+	img->e_2 = mlx_xpm_file_to_image(g->mlx, "d/Exit2.xpm", &(img->wi), &(img->he));
 	return (img);
 }
 

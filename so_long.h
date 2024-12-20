@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/19 15:11:27 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:27:09 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ typedef struct s_img
 	void	*da[6];
 	void	*ua[6];
 	void	*pe[6];
+	void	*pe2[6];
 	void	*dp[6];
 	void	*c_2;
-	int		width;
-	int		height;
+	int		wi;
+	int		he;
 	int		frame;
 	int		speed;
 	int		count;
@@ -45,8 +46,8 @@ typedef struct s_img
 
 typedef struct s_play
 {
-	int		play_x;
-	int		play_y;
+	int		x;
+	int		y;
 	char	*addr;
 	int		bpp;
 	int		line;
@@ -73,6 +74,7 @@ typedef struct s_enemie
 	int	dead;
 	int	dir;
 	int	t_death;
+	int	count;
 }	t_enemie;
 
 
@@ -82,6 +84,7 @@ typedef struct s_game
 	void	*win; 
 	int		obj;
 	int		death;
+	char	*str;
 	t_list	*e;
 	t_play	*p;
 	t_map	*map;
@@ -107,5 +110,6 @@ t_img	*init_img(t_game *game);
 int		render_map(t_game *game);
 void	my_put_img(t_game *game, void *img, int x, int y);
 void	render_enemie(t_game *g);
+void	load_extra_frame(t_img *img, t_game *game);
 
 #endif 
