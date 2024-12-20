@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:56:39 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 15:42:57 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:47:40 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	clear_animate(t_game *game)
 		mlx_destroy_image(game->mlx, game->img->w_a[i]);
 		mlx_destroy_image(game->mlx, game->img->pe[i]);
 		mlx_destroy_image(game->mlx, game->img->pe2[i]);
+		mlx_destroy_image(game->mlx, game->img->dp[i]);
 		i++;
 	}
 }
@@ -51,8 +52,25 @@ void	clear_last(t_game *game)
 	mlx_destroy_image(game->mlx, game->img->o_1);
 }
 
-void	clear_all(t_game *game)
+int	clear_all(t_game *game)
 {
+	int i;
+	
+	i = 0;
 	clear_animate(game);
 	clear_last(game);
+	while (i < game->map->height)
+		free(game->map->data[i++]);
+	free (game->map->data);
+	free(game->map);
+	free(game->p);
+	free(game->img);
+	ft_lstclear(&game->e, free);
+	free(game->str);
+	mlx_do_key_autorepeaton(game->mlx);
+	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
+	exit(EXIT_SUCCESS);
+	return (0);
 }

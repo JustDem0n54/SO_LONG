@@ -7,6 +7,7 @@ FILE = s_main.c \
 		s_character.c \
 		s_print_map.c \
 		s_parsing_map.c \
+		s_clear.c \
 
 
 LIBFT = libft/libft.a

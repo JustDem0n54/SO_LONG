@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:36:32 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 14:53:24 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:48:18 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	death_animation(t_game *game, int x, int y)
 	my_put_img(game, game->img->dp[game->p->time], x, y);
 	game->p->time++;
 	if (game->p->time > 5)
-		exit (EXIT_SUCCESS);
+		clear_all(game);
 }
 
 void	render_player(t_game *game)
@@ -93,6 +93,7 @@ int	move_player(t_game *game, int dx, int dy)
 		game->p->y = new_y;
 		game->p->count = game->p->count + 1;
 		ft_printf("Nombre de deplacement : %d\n", game->p->count);
+		free(game->str);
 		game->str = ft_itoa(game->p->count);
 		if (game->map->data[new_y][new_x] == 'C')
 		{

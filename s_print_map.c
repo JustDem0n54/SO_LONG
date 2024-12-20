@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:34:40 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 15:45:49 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:33:07 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	load_animation_frame(t_img *img, t_game *g)
 	img->w_a[4] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W5.xpm", &(img->wi), &(img->he));
 	img->w_a[5] = mlx_xpm_file_to_image(g->mlx, "d/aw_1/W6.xpm", &(img->wi), &(img->he));
 	img->o_1 = mlx_xpm_file_to_image(g->mlx, "d/Obj1.xpm", &(img->wi), &(img->he));
-	img->c_2 = mlx_xpm_file_to_image(g->mlx, "d/Player2.xpm", &(img->wi), &(img->he));
 }
 
 void	load_fight_frame(t_img *img, t_game *g)

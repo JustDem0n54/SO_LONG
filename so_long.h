@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 15:27:09 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:48:40 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,8 @@ int		render_map(t_game *game);
 void	my_put_img(t_game *game, void *img, int x, int y);
 void	render_enemie(t_game *g);
 void	load_extra_frame(t_img *img, t_game *game);
+int		clear_all(t_game *game);
+void	clear_last(t_game *game);
+void	clear_animate(t_game *game);
 
 #endif 

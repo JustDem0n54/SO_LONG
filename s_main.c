@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:40:01 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/18 16:36:32 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:09:33 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ int	main(int argc, char **argv)
 		return (0);
 	g.map = parsing_map(fd);
 	close (fd);
-	while (g.map->data[i] != 0)
-	{
-		ft_printf("%s\n", g.map->data[i]);
-		i++;
-	}
 	check_map(g.map->data);
 	create_window(&g);
 	free(g.map->data);

@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:24:42 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 15:45:06 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 16:48:04 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,7 @@ int fight(int keycode, t_game *game)
 int	key_hook(int keycode, t_game *game)
 {
 	if (keycode == 65307)
-	{
-		mlx_clear_window(game->mlx, game->win);
-		exit (EXIT_SUCCESS);
-	}
+		clear_all(game);
 	if (game->death != 1)
 	{
 		movement(keycode, game);
@@ -194,7 +191,7 @@ int	init_obj(t_game *game)
 	
 	y = 0;
 	count = 0;
-	game->str = "0000";
+	game->str = ft_itoa(0);
 	while (game->map->data[y])
 	{
 		x = 0;
@@ -302,6 +299,7 @@ int	create_window(t_game *g)
 	g->img = init_img(g);
 	g->p = init_play(g);
 	init_enemie(g);
+	mlx_hook(g->win, 17, 0, clear_all, g);
 	mlx_hook(g->win, 2, 1L<<0, key_hook, g);
 	mlx_loop_hook(g->mlx, gameplay, g);
 	mlx_loop(g->mlx);
