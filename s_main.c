@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:40:01 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 17:09:33 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:31:24 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_map(char **map)
 		if (map[i][j--] != '1')
 			return (0);
 	}
-	return(0);
+	return(1);
 }
 
 int	main(int argc, char **argv)
@@ -47,14 +47,17 @@ int	main(int argc, char **argv)
 	t_game g;
 	
 	if (argc != 2)
-		return (0);
+		return (error(1), 1);
 	i = 0;
 	fd = open(argv[argc - 1], O_RDONLY);
 	if (fd < 0)
 		return (0);
 	g.map = parsing_map(fd);
+	if (g.map == NULL)
+		return (error(2), 1);
 	close (fd);
-	check_map(g.map->data);
+	if (check_map(g.map->data) == 0)
+		return (error(2), 1);
 	create_window(&g);
 	free(g.map->data);
 	return (0);

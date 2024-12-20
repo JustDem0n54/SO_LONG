@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:56:39 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 16:47:40 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:30:01 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,16 @@ int	clear_all(t_game *game)
 	free(game->mlx);
 	exit(EXIT_SUCCESS);
 	return (0);
+}
+
+void	error(int error)
+{
+	if (error == 1)
+	{
+		ft_putstr_fd("You need only 1 argument !", 2);
+	}
+	if (error == 2)
+	{
+		ft_putstr_fd("Error Map !", 2);
+	}
 }

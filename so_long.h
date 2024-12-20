@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 16:48:40 by nrontard         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:26:48 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ void	load_extra_frame(t_img *img, t_game *game);
 int		clear_all(t_game *game);
 void	clear_last(t_game *game);
 void	clear_animate(t_game *game);
+void	error(int error);
 
 #endif 
