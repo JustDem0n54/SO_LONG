@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:56:39 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 17:30:01 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:08:05 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	clear_animate(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 6)
@@ -25,7 +25,7 @@ void	clear_animate(t_game *game)
 		mlx_destroy_image(game->mlx, game->img->da[i]);
 		mlx_destroy_image(game->mlx, game->img->lp[i]);
 		mlx_destroy_image(game->mlx, game->img->rp[i]);
-		mlx_destroy_image(game->mlx, game->img->w_a[i]);
+		mlx_destroy_image(game->mlx, game->img->w[i]);
 		mlx_destroy_image(game->mlx, game->img->pe[i]);
 		mlx_destroy_image(game->mlx, game->img->pe2[i]);
 		mlx_destroy_image(game->mlx, game->img->dp[i]);
@@ -35,9 +35,9 @@ void	clear_animate(t_game *game)
 
 void	clear_last(t_game *game)
 {
-	mlx_destroy_image(game->mlx, game->img->w[0]);
-	mlx_destroy_image(game->mlx, game->img->w[1]);
-	mlx_destroy_image(game->mlx, game->img->w[2]);
+	mlx_destroy_image(game->mlx, game->img->wo[0]);
+	mlx_destroy_image(game->mlx, game->img->wo[1]);
+	mlx_destroy_image(game->mlx, game->img->wo[2]);
 	mlx_destroy_image(game->mlx, game->img->f[0]);
 	mlx_destroy_image(game->mlx, game->img->f[1]);
 	mlx_destroy_image(game->mlx, game->img->f[2]);
@@ -54,8 +54,8 @@ void	clear_last(t_game *game)
 
 int	clear_all(t_game *game)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	clear_animate(game);
 	clear_last(game);
@@ -78,11 +78,13 @@ int	clear_all(t_game *game)
 void	error(int error)
 {
 	if (error == 1)
-	{
-		ft_putstr_fd("You need only 1 argument !", 2);
-	}
+		ft_putstr_fd("You need 1 argument !", 2);
 	if (error == 2)
-	{
-		ft_putstr_fd("Error Map !", 2);
-	}
+		ft_putstr_fd("The border of the map need to be only walls.", 2);
+	if (error == 3)
+		ft_putstr_fd("Invalid character in map.", 2);
+	if (error == 4)
+		ft_putstr_fd("Invalid size of map.", 2);
+	if (error == 5)
+		ft_putstr_fd("Error map, check 'E', 'P' or 'C'.", 2);
 }

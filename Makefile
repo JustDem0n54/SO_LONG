@@ -8,6 +8,9 @@ FILE = s_main.c \
 		s_print_map.c \
 		s_parsing_map.c \
 		s_clear.c \
+		s_enemie.c \
+		s_utils_map.c \
+		s_hook.c \
 
 
 LIBFT = libft/libft.a

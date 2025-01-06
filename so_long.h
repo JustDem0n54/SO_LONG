@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 17:26:48 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:21:51 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,17 @@
 
 # define CELL_SIZE 80
 
+typedef struct s_point
+{
+	int x;
+	int y;
+}	t_point;
+
+
 typedef struct s_img
 {
-	void	*w_a[6];
-	void	*w[3];
+	void	*w[6];
+	void	*wo[3];
 	void	*f[9];
 	void	*e_1;
 	void	*e_2;
@@ -92,28 +99,41 @@ typedef struct s_game
 }	t_game;
 
 
-int		create_window(t_game *game);
-int		key_hook(int keycode, t_game *game);
-t_play	*init_play(t_game *game);
-void	render_player(t_game *game);
-int		move_player(t_game *game, int dx, int dy);
-int		check_map(char **map);
-t_map	*initialing_map(void);
-char	*only_useful(char *line);
-int		line_is_correct(char *line);
-t_list	*list_map(int fd, int *width, int *height);
-t_map	*parsing_map(int fd);
-void	print_wall(t_game *game, int i, int j, char **map);
-void	print_floor(t_game *game, int i, int j, char **map);
-void	load_animation_frame(t_img *img, t_game *game);
-t_img	*init_img(t_game *game);
-int		render_map(t_game *game);
-void	my_put_img(t_game *game, void *img, int x, int y);
-void	render_enemie(t_game *g);
-void	load_extra_frame(t_img *img, t_game *game);
-int		clear_all(t_game *game);
-void	clear_last(t_game *game);
-void	clear_animate(t_game *game);
-void	error(int error);
+int			create_window(t_game *game);
+int			key_hook(int keycode, t_game *game);
+t_play		*init_play(t_game *game);
+void		render_player(t_game *game);
+int			move_player(t_game *game, int dx, int dy);
+int			check_map(t_game *game);
+t_map		*initialing_map(void);
+char		*only_useful(char *line);
+int			line_is_correct(char *line);
+t_list		*list_map(int fd, int *width, int *height);
+t_map		*parsing_map(int fd);
+void		print_wall(t_game *game, int i, int j, char **map);
+void		print_floor(t_game *game, int i, int j, char **map);
+void		load_animation_frame(t_img *img, t_game *game);
+t_img		*init_img(t_game *game);
+int			render_map(t_game *game);
+void		my_put_img(t_game *game, void *img, int x, int y);
+void		render_enemie(t_game *g);
+void		load_extra_frame(t_img *img, t_game *game);
+int			clear_all(t_game *game);
+void		clear_last(t_game *game);
+void		clear_animate(t_game *game);
+void		error(int error);
+void		render_enemie(t_game *g);
+void		move_enemie(t_game *g, t_enemie *e);
+t_enemie	*new_enemie(int x, int y);
+void		init_enemie(t_game *game);
+void		kill_enemie(t_game *g, int atk);
+int			render_map(t_game *game);
+t_img		*init_img(t_game *g);
+int			animate(t_game *g);
+void		*load_img(void *mlx, char *str, int *width, int *height);
+void		load_fight_frame(t_img *img, t_game *g);
+int			key_hook(int keycode, t_game *game);
+int			movement(int keycode, t_game *game);
+int			fight(int keycode, t_game *game);
 
 #endif 

@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:43:33 by nrontard          #+#    #+#             */
-/*   Updated: 2024/12/20 17:17:50 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:47:33 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_map	*initialing_map(void)
 {
 	t_map	*map;
+
 	map = ft_calloc(1, sizeof(t_map));
 	if (map == NULL)
 		return (NULL);
@@ -43,8 +44,8 @@ int	line_is_correct(char *line)
 	{
 		if (ft_strchr("10PECM", line[i]))
 			i++;
-		else	
-			return (1);
+		else
+			return (error(3), 1);
 	}
 	return (0);
 }
@@ -53,19 +54,19 @@ t_list	*list_map(int fd, int *width, int *height)
 {
 	char	*line;
 	t_list	*lst;
-	
+
 	lst = NULL;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
-			break;
+			break ;
 		only_useful(line);
 		if (line_is_correct(line) == 1)
 			return (free(line), NULL);
 		(*width) = ft_strlen(line);
 		if ((*width) < 3)
-			return (free(line), NULL);
+			return (error(4), free(line), NULL);
 		ft_lstadd_back(&lst, ft_lstnew(line));
 		(*height)++;
 	}
