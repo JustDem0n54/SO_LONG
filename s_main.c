@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:40:01 by nrontard          #+#    #+#             */
-/*   Updated: 2025/01/06 17:35:01 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/01/09 11:10:15 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,55 +86,69 @@ int count_element(t_game *game, char **map, int i, int y)
 	return (c);
 }
 
-void	init_point(t_game *game, char **map, t_point begin, t_point size)
+void	init_point(t_game *game, char **map, t_point *begin, t_point *end)
 {
-	size.x = 0;
-	while (size.x < game->map->height)
+	int i;
+	int y;
+	
+	i = 0;
+	while (i < game->map->height)
 	{
-		size.y = 0;
-		while (size.y < game->map->width)
+		y = 0;
+		while (y < game->map->width)
 		{
-			if (map[size.x][size.y] == 'P')
+			if (map[i][y] == 'P')
 			{
-				begin.x = size.x;
-				begin.y = size.y;
+				begin->x = i;
+				begin->y = y;
 			}
-			size.y++;
+			if (map[i][y] == 'E')
+			{
+				end->x = i;
+				end->y = y;
+			}
+			y++;
 		}
-		size.x++;
+		i++;
 	}
 }
 
-void	parse_it(char **map, t_point size, t_point begin, int count)
+void	find_exit(char **map, t_point end, t_point start, int *count)
 {
-	if (map[begin.x][begin.y] == 'C' || map[begin.x][begin.y] == 'E')
-		count--;
-	if (map[begin.x][begin.y] == '1' || count == 0)
-		return;
-	map[begin.x][begin.y] = '1';
-	parse_it(map, size, (t_point){begin.x - 1, begin.y}, count);
-	parse_it(map, size, (t_point){begin.x + 1, begin.y}, count);
-	parse_it(map, size, (t_point){begin.x, begin.y - 1}, count);
-	parse_it(map, size, (t_point){begin.x, begin.y + 1}, count);
+	if (start.x == end.x && start.y == end.y)
+		count[1] = 1;
+	if (map[start.x][start.y] == '1' || (count[1] == 1 && count[0] == 0)
+		|| (count[0] != 0 && start.x == end.x && start.y == end.y))
+		return ;
+	if (map[start.x][start.y] == 'C')
+		count[0] = count[0] - 1;
+	map[start.x][start.y] = '1';
+	find_exit(map, end, (t_point){start.x - 1, start.y}, count);
+	find_exit(map, end, (t_point){start.x + 1, start.y}, count);
+	find_exit(map, end, (t_point){start.x, start.y - 1}, count);
+	find_exit(map, end, (t_point){start.x, start.y + 1}, count);
 }
 
 int check_map(t_game *game)
 {
 	char	**copy;
-	int		count;
+	int		count[2];
 	t_point	begin;
-	t_point	size;
+	t_point	end;
 	
 	begin.x = 0;
-	size.x = 0;
+	end.x = 0;
+	count[1] = 0;
 	if (border_map(game->map->data) == 1)
 		return (error(2), 1);
 	copy = copy_map(game->map->data, game->map->height);
-	count = count_element(game, copy, 0, 0);
-	if (count == 0)
+	count[0] = count_element(game, copy, 0, 0);
+	if (count[0] == 0)
 		return (error(5), 1);
-	init_point(game, copy, begin, size);
-	// parse_it(copy, size, begin, count + 1);
+	init_point(game, copy, &begin, &end);
+	find_exit(copy, end, begin, count);
+	if (count[0] != 0 && count[1] == 0)
+		return(error(6), 1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:56:39 by nrontard          #+#    #+#             */
-/*   Updated: 2025/01/06 16:08:05 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/01/09 11:13:26 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,6 @@ void	error(int error)
 		ft_putstr_fd("Invalid size of map.", 2);
 	if (error == 5)
 		ft_putstr_fd("Error map, check 'E', 'P' or 'C'.", 2);
+	if (error == 6)
+		ft_putstr_fd("The map is impossible.", 2);
 }
