@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:43:33 by nrontard          #+#    #+#             */
-/*   Updated: 2025/01/06 14:47:33 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:03:09 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_map	*parsing_map(int fd)
 	map = initialing_map();
 	lst_start = list_map(fd, &map->width, &map->height);
 	if (lst_start == NULL)
-		return (NULL);
+		return (free(map), NULL);
 	lst = lst_start;
 	map->data = ft_calloc(map->height + 1, sizeof(char *));
 	if (map->data == NULL)

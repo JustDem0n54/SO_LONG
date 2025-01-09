@@ -11,6 +11,7 @@ FILE = s_main.c \
 		s_enemie.c \
 		s_utils_map.c \
 		s_hook.c \
+		s_check_map.c \
 
 
 LIBFT = libft/libft.a

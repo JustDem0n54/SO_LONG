@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:01:07 by nrontard          #+#    #+#             */
-/*   Updated: 2025/01/06 16:21:51 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:44:05 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,5 +135,12 @@ void		load_fight_frame(t_img *img, t_game *g);
 int			key_hook(int keycode, t_game *game);
 int			movement(int keycode, t_game *game);
 int			fight(int keycode, t_game *game);
+void		find_exit(char **map, t_point end, t_point start, int *count);
+void		init_point(t_game *game, char **map, t_point *begin, t_point *end);
+int			count_element(t_game *game, char **map, int i, int y);
+char		**copy_map(char **map, int i);
+int			border_map(char **map);
+void		ft_free(char **str, int count);
+void		free_map(t_map *map);
 
 #endif 
