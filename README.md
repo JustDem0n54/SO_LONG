@@ -1,5 +1,6 @@
 # SO_LONG
 //////////FRANCAIS/////////////////
+
 Bienvenue sur mon projet SO_LONG !
 
 Le but de se projet est de creer un jeu en 2D en C grace a la Mini_libX de 42.
@@ -12,6 +13,7 @@ Voici les commandes : WASD, pour le deplacement,
 HAVE FUN and ENJOY !!
 
 //////////ENGLISH/////////////////
+
 Welcome to my SO_LONG project!
 
 The goal of this project is to create a 2D game in C using the Mini_libX of 42. 
