@@ -13,8 +13,8 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "libft/libft.h"
-# include "libft/ft_printf.h"
+# include "libft_SL/libft.h"
+# include "libft_SL/ft_printf.h"
 # include "mlx_linux/mlx.h"
 
 # define CELL_SIZE 80

@@ -14,7 +14,7 @@ FILE = s_main.c \
 		s_check_map.c \
 
 
-LIBFT = libft/libft.a
+LIBFT = libft_SL/libft.a
 RM = rm -f
 CC = cc
 CFLAGS	= -Wall -Werror -Wextra -ggdb
@@ -23,8 +23,8 @@ AR	= ar rc
 NAME = so_long
 
 SRCS = ${FILE}
-
-OBJS = ${SRCS:.c=.o}
+OBJDIR = obj
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 all:	${NAME}
 	@echo "${GREEN}Compilation successful !${RESET}"
@@ -34,18 +34,25 @@ all:	${NAME}
 
 ${LIBFT}:	
 	@echo "${GREEN}Compilation LIBFT...${RESET}"
-	@make -s -C libft bonus
+	@make -s -C libft_SL bonus
 
 ${NAME}:	${OBJS} ${LIBFT} ${MLX}
 	@echo "${GREEN}Compilation SO_LONG...${RESET}"
 	@${CC} ${CFLAGS} ${OBJS} -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o ${NAME} ${LIBFT}
 
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+	@cc $(CFLAGS) -c $< -o $@
+
 clean:
 	@echo "${RED}Cleaning...${RESET}"
-	@make -s -C libft fclean
-	@${RM} ${OBJS}
+	@${RM} -rf ${OBJDIR}
 
 fclean: clean
-	@${RM} ${LONG}
+	@rm -f $(NAME) outfile
+	@make -s -C libft_SL fclean
+	
 
 re: fclean all
