@@ -25,4 +25,6 @@ Here are the commands: WASD, for movement,
 
 HAVE FUN and ENJOY!!
 
+⚠⚠⚠ You have to download the Mini_libX to play the game ⚠⚠⚠
+
 ![Screenshot from 2025-02-18 12-14-09](https://github.com/user-attachments/assets/cbef64ea-96ac-4680-ae61-3af7e173f959)
