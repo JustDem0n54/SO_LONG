@@ -9,3 +9,5 @@ Voici les commandes : WASD, pour le deplacement,
                       espace, pour attaquer.
 
 HAVE FUN and ENJOY !!
+
+![Screenshot from 2025-02-18 12-14-09](https://github.com/user-attachments/assets/cbef64ea-96ac-4680-ae61-3af7e173f959)
